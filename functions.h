@@ -7,16 +7,12 @@ struct RationalNumber
     char sign;
 };
 
+RationalNumber inputNumber (struct RationalNumber x);
 void outputNumber (struct RationalNumber x);
 
-RationalNumber simplification (struct RationalNumber x);
-RationalNumber improperFraction (struct RationalNumber x);
-
-RationalNumber sum (struct RationalNumber x, struct RationalNumber y, char sign);
-RationalNumber difference (struct RationalNumber x, struct RationalNumber y, char sign);
+RationalNumber sum (struct RationalNumber x, struct RationalNumber y);
+RationalNumber difference (struct RationalNumber x, struct RationalNumber y);
 RationalNumber multiplication (struct RationalNumber x, struct RationalNumber y);
 RationalNumber devision (struct RationalNumber x, struct RationalNumber y);
-
-void sumAndDifference (struct RationalNumber x, struct RationalNumber y);
 
 #endif // FUNCTIONS_H

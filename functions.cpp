@@ -1,15 +1,36 @@
 #include "functions.h"
 #include <iostream>
+#include <cassert>
+#include <math.h>
 
 using namespace std;
 
+RationalNumber simplification (struct RationalNumber x);
+RationalNumber improperFraction (struct RationalNumber x);
+
+RationalNumber inputNumber (struct RationalNumber x)
+{
+    cout<<"Enter the first rational number"<<endl;
+    cout<<"   Sign of the number (+ or -): ";
+    cin>>x.sign;
+    cout<<"   Integer part: ";
+    cin>>x.intpart;
+    cout<<"   Numerator: ";
+    cin>>x.num;
+    cout<<"   Denominator (not 0): ";
+    cin>>x.den;
+    assert(x.den!=0);
+    return x;
+}
+
 void outputNumber (struct RationalNumber x)
 {
+    x=simplification(x);
     if ((!x.intpart)||(!x.num))
     {
         if ((!x.intpart)&(!x.num))
         {
-            cout<<"   0"<<endl;
+            cout<<"   0";
         }
         else
         {
@@ -23,11 +44,11 @@ void outputNumber (struct RationalNumber x)
             }
             if (!x.intpart)
             {
-                cout<<x.num<<" / "<<x.den<<endl;
+                cout<<x.num<<" / "<<x.den;
             }
             if (!x.num)
             {
-                cout<<x.intpart<<endl;
+                cout<<x.intpart;
             }
         }
     }
@@ -41,7 +62,7 @@ void outputNumber (struct RationalNumber x)
         {
                 cout<<"   ";
         }
-        cout<<x.intpart<<" : "<<x.num<<" / "<<x.den<<endl;
+        cout<<x.intpart<<" : "<<x.num<<" / "<<x.den;
     }
 }
 
@@ -72,155 +93,127 @@ RationalNumber simplification (struct RationalNumber x)
 
 RationalNumber improperFraction (struct RationalNumber x)//неправильная дробь
 {
-    x.num+=x.den*x.intpart;
-    x.intpart=0;
+    if (x.intpart)
+    {
+        x.num+=x.den*x.intpart;
+        x.intpart=0;
+    }
     return x;
 }
 
-RationalNumber sum(struct RationalNumber x, struct RationalNumber y, char sign)
+RationalNumber sum(struct RationalNumber x, struct RationalNumber y)
  {
      RationalNumber res;
-     if (x.intpart)
+     x=improperFraction(x);
+     y=improperFraction(y);
+     if (x.sign=='-')
      {
-        x=improperFraction(x);
+         x.num=-x.num;
      }
-     if (y.intpart)
+     if (y.sign=='-')
      {
-        y=improperFraction(y);
+         y.num=-y.num;
      }
      res.num=(x.num)*(y.den)+(y.num)*(x.den);
-     res.den=(x.den)*(y.den);
+     res.den=x.den*y.den;
      res.intpart=0;
-     res.sign=sign;
-     return res;
+     if (res.num<0)
+     {
+         res.sign='-';
+         res.num=fabs(res.num);
+     }
+     else
+     {
+         res.sign='+';
+     }
+     return simplification (res);
  }
 
-RationalNumber difference (struct RationalNumber x, struct RationalNumber y, char sign)
+RationalNumber difference (struct RationalNumber x, struct RationalNumber y)
 {
      RationalNumber res;
-     if (x.intpart)
+     x=improperFraction(x);
+     y=improperFraction(y);
+     if (x.sign=='-')
      {
-        x=improperFraction(x);
+         x.num=-x.num;
      }
-     if (y.intpart)
+     if (y.sign=='-')
      {
-        y=improperFraction(y);
+         y.num=-y.num;
      }
      res.num=(x.num)*(y.den)-(y.num)*(x.den);
-     res.den=(x.den)*(y.den);
+     res.den=x.den*y.den;
      res.intpart=0;
-     res.sign=sign;
-     return res;
+     if (res.num<0)
+     {
+         res.sign='-';
+         res.num=fabs(res.num);
+     }
+     else
+     {
+         res.sign='+';
+     }
+     return simplification (res);
 }
 
 RationalNumber multiplication (struct RationalNumber x, struct RationalNumber y)
 {
     RationalNumber res;
-     if (x.intpart)
-     {
-        x=improperFraction(x);
-     }
-     if (y.intpart)
-     {
-        y=improperFraction(y);
-     }
+    x=improperFraction(x);
+    y=improperFraction(y);
+    if (x.sign=='-')
+    {
+        x.num=-x.num;
+    }
+    if (y.sign=='-')
+    {
+        y.num=-y.num;
+    }
     res.num=x.num*y.num;
     res.den=x.den*y.den;
     res.intpart=0;
-    if (((x.sign=='-') & (y.sign=='-'))||((x.sign=='+') & (y.sign=='+')))
-    {
-       res.sign='+';
-    }
-    else
+    if (res.num<0)
     {
         res.sign='-';
     }
-    return res;
+    else
+    {
+        res.sign='+';
+    }
+    res.num=fabs(res.num);
+    return simplification (res);
 }
 
 RationalNumber devision (struct RationalNumber x, struct RationalNumber y)
  {
     RationalNumber res;
-    if (x.intpart)
-     {
-        x=improperFraction(x);
-     }
-     if (y.intpart)
-     {
-        y=improperFraction(y);
-     }
+    x=improperFraction(x);
+    y=improperFraction(y);
+    if (x.sign=='-')
+    {
+        x.num=-x.num;
+    }
+    if (y.sign=='-')
+    {
+        y.num=-y.num;
+    }
     res.num=x.num*y.den;
     res.den=x.den*y.num;
     res.intpart=0;
-    if (((x.sign=='-') & (y.sign=='-'))||((x.sign=='+') & (y.sign=='+')))
-    {
-       res.sign='+';
-    }
-    else
+    if (res.num*res.den<0)
     {
         res.sign='-';
     }
-    return res;
+    else
+    {
+        res.sign='+';
+    }
+    res.num=fabs(res.num);
+    res.den=fabs(res.den);
+    return simplification (res);
 }
 
-void sumAndDifference (struct RationalNumber x, struct RationalNumber y)
-{
-    RationalNumber s, d;
-    if ((x.sign=='+') & (y.sign=='+'))
-    {
-        s=sum(x,y,'+');
-        if ((x.num*y.den)>(y.num*x.den))
-        {
-            d=difference(x,y,'+');
-        }
-        else
-        {
-            d=difference(y,x,'-');
-        }
-    }
-    if ((x.sign=='+') & (y.sign=='-'))
-    {
-        d=sum(x,y,'+');
-        if ((x.num*y.den)>(y.num*x.den))
-        {
-            s=difference(x,y,'+');
-        }
-        else
-        {
-            s=difference(y,x,'-');
-        }
-    }
-    if ((x.sign=='-') & (y.sign=='+'))
-    {
-        d=sum(x,y,'-');
-        if ((x.num*y.den)>(y.num*x.den))
-        {
-            s=difference(x,y,'-');
-        }
-        else
-        {
-            s=difference(y,x,'+');
-        }
-    }
-    if ((x.sign=='-') & (y.sign=='-'))
-    {
-        s=sum(x,y,'-');
-        if ((x.num*y.den)>(y.num*x.den))
-        {
-            d=difference(x,y,'-');
-        }
-        else
-        {
-            d=difference(y,x,'+');
-        }
-    }
-
-    cout<<endl<<"Sum of rational numbers: ";
-    outputNumber (simplification(s));
-
-    cout<<endl<<"Difference of rational numbers: ";
-    outputNumber (simplification(d));
-}
 
 
 
