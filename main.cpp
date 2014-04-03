@@ -6,10 +6,10 @@ using namespace std;
 int main()
 {
     RationalNumber x, y;
-    x=inputNumber (x);
+    x=inputNumber ();
     outputNumber (x);
     cout<<endl<<endl;
-    y=inputNumber (y);
+    y=inputNumber ();
     outputNumber (y);
 
     cout<<endl<<endl<<"Sum of rational numbers: ";

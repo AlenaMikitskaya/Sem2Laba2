@@ -8,8 +8,9 @@ using namespace std;
 RationalNumber simplification (struct RationalNumber x);
 RationalNumber improperFraction (struct RationalNumber x);
 
-RationalNumber inputNumber (struct RationalNumber x)
+RationalNumber inputNumber ()
 {
+    RationalNumber x;
     cout<<"Enter the first rational number"<<endl;
     cout<<"   Sign of the number (+ or -): ";
     cin>>x.sign;
@@ -162,26 +163,17 @@ RationalNumber multiplication (struct RationalNumber x, struct RationalNumber y)
     RationalNumber res;
     x=improperFraction(x);
     y=improperFraction(y);
-    if (x.sign=='-')
-    {
-        x.num=-x.num;
-    }
-    if (y.sign=='-')
-    {
-        y.num=-y.num;
-    }
-    res.num=x.num*y.num;
-    res.den=x.den*y.den;
+    res.num=(x.num)*(y.num);
+    res.den=(x.den)*(y.den);
     res.intpart=0;
-    if (res.num<0)
-    {
-        res.sign='-';
-    }
-    else
+    if ((x.sign=='-' & y.sign=='-')||(x.sign=='+' & y.sign=='+'))
     {
         res.sign='+';
     }
-    res.num=fabs(res.num);
+    else
+    {
+        res.sign='-';
+    }
     return simplification (res);
 }
 
@@ -190,27 +182,17 @@ RationalNumber devision (struct RationalNumber x, struct RationalNumber y)
     RationalNumber res;
     x=improperFraction(x);
     y=improperFraction(y);
-    if (x.sign=='-')
-    {
-        x.num=-x.num;
-    }
-    if (y.sign=='-')
-    {
-        y.num=-y.num;
-    }
-    res.num=x.num*y.den;
-    res.den=x.den*y.num;
+    res.num=(x.num)*(y.den);
+    res.den=(x.den)*(y.num);
     res.intpart=0;
-    if (res.num*res.den<0)
-    {
-        res.sign='-';
-    }
-    else
+    if ((x.sign=='-' & y.sign=='-')||(x.sign=='+' & y.sign=='+'))
     {
         res.sign='+';
     }
-    res.num=fabs(res.num);
-    res.den=fabs(res.den);
+    else
+    {
+        res.sign='-';
+    }
     return simplification (res);
 }
 

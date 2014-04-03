@@ -7,7 +7,7 @@ struct RationalNumber
     char sign;
 };
 
-RationalNumber inputNumber (struct RationalNumber x);
+RationalNumber inputNumber ();
 void outputNumber (struct RationalNumber x);
 
 RationalNumber sum (struct RationalNumber x, struct RationalNumber y);
