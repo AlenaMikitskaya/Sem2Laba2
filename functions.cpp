@@ -29,7 +29,7 @@ void outputNumber (struct RationalNumber x)
     x=simplification(x);
     if ((!x.intpart)||(!x.num))
     {
-        if ((!x.intpart)&(!x.num))
+        if ((!x.intpart)&&(!x.num))
         {
             cout<<"   0";
         }
@@ -166,7 +166,7 @@ RationalNumber multiplication (struct RationalNumber x, struct RationalNumber y)
     res.num=(x.num)*(y.num);
     res.den=(x.den)*(y.den);
     res.intpart=0;
-    if ((x.sign=='-' & y.sign=='-')||(x.sign=='+' & y.sign=='+'))
+    if ((x.sign=='-' && y.sign=='-')||(x.sign=='+' && y.sign=='+'))
     {
         res.sign='+';
     }
@@ -185,7 +185,7 @@ RationalNumber devision (struct RationalNumber x, struct RationalNumber y)
     res.num=(x.num)*(y.den);
     res.den=(x.den)*(y.num);
     res.intpart=0;
-    if ((x.sign=='-' & y.sign=='-')||(x.sign=='+' & y.sign=='+'))
+    if (((x.sign=='-') && (y.sign=='-'))||((x.sign=='+') && (y.sign=='+')))
     {
         res.sign='+';
     }
